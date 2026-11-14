@@ -10,23 +10,24 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Montserrat:wght@300;400;500;600&family=Pinyon+Script&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Montserrat:wght@300;400;500&display=swap"
         rel="stylesheet">
 
     <style>
         :root {
             --dusty-rose: #C28C8E;
             --sage-green: #839788;
-            --champagne: #C5A059;
-            /* New Regal Gold Accent */
-            --text-dark: #4A4A4A;
+            --text-dark: #5A5A5A;
             --bg-color: #FDFCFB;
+            --dusty-rose-dark: #a67375;
+            --sage-green-dark: #5d6e61;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body,
@@ -46,7 +47,7 @@
             height: 100%;
             pointer-events: none;
             z-index: 2;
-            opacity: 0.05;
+            opacity: 0.06;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
         }
 
@@ -57,7 +58,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at center, rgba(197, 160, 89, 0.12) 0%, rgba(253, 252, 251, 0) 70%);
+            background: radial-gradient(circle at center, rgba(194, 140, 142, 0.15) 0%, rgba(253, 252, 251, 0) 65%);
             z-index: 2;
             pointer-events: none;
         }
@@ -84,171 +85,229 @@
             min-height: 100dvh;
             width: 100vw;
             padding: 2rem 1.5rem;
-            pointer-events: auto;
+            perspective: 1500px;
         }
 
-        /* Regal Invitation Card */
+        /* Elegant Invitation Card */
         .invite-card {
             background-image: url('assets/bg.jpeg');
-            background-size: cover;
+            background-size: 100% 100%;
+            /* Stretches to fit the card perfectly */
             background-position: center;
             background-repeat: no-repeat;
             background-color: #ffffff;
 
-            /* Double border for regal feel */
-            border: 1px solid var(--champagne);
-            border-radius: 2px;
-            padding: 1.5rem;
+            border: 1px solid rgba(194, 140, 142, 0.3);
+            border-radius: 4px;
+
+            /* Outer padding creates the visible floral border */
+            padding: 2rem;
             text-align: center;
             position: relative;
-            max-width: 580px;
+            max-width: 550px;
             width: 100%;
-            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.1), 0 5px 15px rgba(0, 0, 0, 0.05);
-            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1), 0 5px 15px rgba(0, 0, 0, 0.05);
+
+            transform-style: preserve-3d;
+            transition: transform 0.1s ease-out, box-shadow 0.5s ease;
+            user-select: none;
+            /* Prevents text highlighting on mobile taps */
+
+            opacity: 0;
+            animation: fadeInUp 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
         }
 
-        .invite-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15);
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        /* Crystal Glass Backing with Gold Tint */
+        /* The glass layer that protects the text from the flowers */
         .card-content {
-            background: rgba(255, 255, 255, 0.4);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            padding: 4rem 3rem;
-            border-radius: 2px;
-            border: 1px solid rgba(197, 160, 89, 0.4);
-            box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.35);
+            /* Very transparent */
+            backdrop-filter: blur(8px);
+            /* Blurs the flowers behind the text */
+            -webkit-backdrop-filter: blur(8px);
+            padding: 2.5rem 1.5rem;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+            transform: translateZ(30px);
         }
 
         .pre-title {
-            font-family: 'Pinyon Script', cursive;
-            font-size: 1.8rem;
-            font-weight: 400;
-            color: var(--champagne);
-            margin-bottom: 1.5rem;
-            line-height: 1.2;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 3px;
+            color: var(--sage-green);
+            margin-bottom: 2rem;
+            text-transform: uppercase;
         }
 
         .names {
             font-family: 'Cinzel', serif;
-            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-size: clamp(2.2rem, 6vw, 4rem);
             font-weight: 600;
             color: var(--dusty-rose);
-            line-height: 1.1;
+            line-height: 1.2;
             margin-bottom: 1.5rem;
-            letter-spacing: 5px;
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
-            transition: text-shadow 0.4s ease, transform 0.4s ease;
+            letter-spacing: 4px;
             cursor: default;
         }
 
-        .names:hover {
-            text-shadow: 0 0 25px rgba(194, 140, 142, 0.5);
-            transform: scale(1.02);
-        }
-
         .names span {
-            font-family: 'Pinyon Script', cursive;
-            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-size: clamp(1.5rem, 4vw, 3rem);
             color: var(--sage-green);
             display: block;
-            margin: 0.2rem 0;
-            letter-spacing: 0;
-            transition: color 0.4s ease;
+            margin: 0.5rem 0;
         }
 
-        .names:hover span {
-            color: #6a7c6f;
-        }
-
-        /* Regal Gold Divider */
-        .divider {
+        /* Countdown Timer */
+        .countdown {
             display: flex;
-            align-items: center;
             justify-content: center;
-            margin: 1.5rem 0;
-            color: var(--champagne);
+            gap: 10px;
+            margin-bottom: 2rem;
         }
 
-        .divider::before,
-        .divider::after {
-            content: "";
-            height: 1px;
-            width: 60px;
-            background: linear-gradient(to right, transparent, var(--champagne), transparent);
+        .time-block {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid rgba(194, 140, 142, 0.3);
+            min-width: 65px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
         }
 
-        .divider svg {
-            width: 12px;
-            height: 12px;
-            margin: 0 15px;
-            fill: var(--champagne);
-            transform: rotate(45deg);
+        .time-block span:first-child {
+            font-family: 'Cinzel', serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--dusty-rose);
+        }
+
+        .time-block span:last-child {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--sage-green);
+            margin-top: 4px;
         }
 
         .save-the-date {
-            font-family: 'Pinyon Script', cursive;
-            font-size: 1.5rem;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.9rem;
+            font-style: italic;
+            font-weight: 600;
             color: var(--dusty-rose);
             margin-bottom: 0.5rem;
+            letter-spacing: 2px;
         }
 
         .date {
             font-family: 'Cinzel', serif;
-            font-size: 1.15rem;
+            font-size: 1.1rem;
             font-weight: 600;
             color: var(--text-dark);
-            margin-bottom: 1rem;
-            letter-spacing: 2px;
+            margin-bottom: 1.5rem;
+            letter-spacing: 1px;
         }
 
         .location {
             font-family: 'Montserrat', sans-serif;
-            font-size: 0.85rem;
-            font-weight: 500;
+            font-size: 0.9rem;
+            font-weight: 600;
             line-height: 1.6;
-            color: var(--sage-green);
+            color: var(--sage-green-dark);
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 0.5rem;
-            cursor: pointer;
-            transition: transform 0.3s ease, color 0.3s ease;
-        }
-
-        .location:hover {
-            transform: scale(1.05);
-            color: #5d6e61;
+            text-decoration: none;
+            transition: transform 0.3s ease;
+            margin-bottom: 2rem;
         }
 
         .location-icon {
-            width: 22px;
-            height: 22px;
-            fill: var(--champagne);
+            width: 24px;
+            height: 24px;
+            fill: var(--dusty-rose);
             transition: fill 0.3s ease, transform 0.3s ease;
         }
 
-        .location:hover .location-icon {
-            fill: #A68344;
-            transform: translateY(-3px);
+        /* Add to Calendar Button */
+        .btn-calendar {
+            display: inline-block;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-decoration: none;
+            color: #fff;
+            padding: 12px 25px;
+            border: 1px solid var(--dusty-rose);
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            background: var(--dusty-rose);
+            box-shadow: 0 4px 15px rgba(194, 140, 142, 0.3);
         }
 
-        /* Mobile Adjustments */
+        /* =========================================
+           MOBILE OPTIMIZATIONS
+           ========================================= */
         @media (max-width: 600px) {
+            .content-wrapper {
+                padding: 1.5rem 1rem;
+                /* Slightly more margin around the card */
+            }
+
+            .invite-card {
+                padding: 1.5rem 1rem;
+                /* Thinner floral border on mobile */
+                transform: none !important;
+            }
+
             .card-content {
-                padding: 3rem 1.5rem;
+                padding: 2rem 1rem;
+                /* Inner glass layer padding */
             }
 
             .names {
-                letter-spacing: 3px;
+                letter-spacing: 2px;
             }
 
-            .divider::before,
-            .divider::after {
-                width: 40px;
+            .countdown {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 6px;
+            }
+
+            .time-block {
+                min-width: 0;
+                padding: 8px 4px;
+            }
+
+            .time-block span:first-child {
+                font-size: 1.1rem;
+            }
+
+            .btn-calendar {
+                display: block;
+                width: 100%;
             }
         }
     </style>
@@ -262,8 +321,9 @@
     <canvas id="fxCanvas"></canvas>
 
     <div class="content-wrapper" id="interactionLayer">
-        <div class="invite-card">
+        <div class="invite-card" id="tiltCard">
 
+            <!-- This transparent glass box protects the text from the flowers -->
             <div class="card-content">
                 <p class="pre-title">We expect your presence<br>at our wedding</p>
 
@@ -273,25 +333,34 @@
                     LEKY
                 </h1>
 
-                <!-- New Regal Divider -->
-                <div class="divider">
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 2L22 12L12 22L2 12L12 2Z" />
-                    </svg>
+                <!-- Live Countdown -->
+                <div class="countdown" id="countdown">
+                    <div class="time-block"><span id="days">00</span><span>Days</span></div>
+                    <div class="time-block"><span id="hours">00</span><span>Hours</span></div>
+                    <div class="time-block"><span id="minutes">00</span><span>Mins</span></div>
+                    <div class="time-block"><span id="seconds">00</span><span>Secs</span></div>
                 </div>
 
                 <div>
                     <p class="save-the-date">Save the Date</p>
-                    <p class="date">THURSDAY, JANUARY 8TH 2026</p>
+                    <p class="date">Thursday, January 7th 2027</p>
                 </div>
 
-                <div class="location">
+                <!-- Location clickable link to Google Maps -->
+                <a href="https://maps.google.com/?q=St+Claret+Church+Phramer+West+Jaintia+Hills" target="_blank"
+                    rel="noopener" class="location">
                     <svg class="location-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path
                             d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
                     </svg>
                     <p>St Claret Church, Phramer,<br>West Jaintia Hills</p>
-                </div>
+                </a>
+
+                <!-- Add to Calendar Link -->
+                <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Merciful+%26+Leky%27s+Wedding&dates=20270107T100000Z/20270107T160000Z&details=We+expect+your+presence+at+our+wedding!&location=St+Claret+Church,+Phramer,+West+Jaintia+Hills"
+                    target="_blank" rel="noopener" class="btn-calendar">
+                    Add to Calendar
+                </a>
             </div>
 
         </div>
@@ -301,20 +370,33 @@
         const canvas = document.getElementById('fxCanvas');
         const ctx = canvas.getContext('2d');
         const interactionLayer = document.getElementById('interactionLayer');
+        const tiltCard = document.getElementById('tiltCard');
+
+        const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
         let width, height;
         let elements = [];
 
         let mouse = { x: undefined, y: undefined, radius: 120 };
 
+        // 3D Tilt and Particle Interaction
         window.addEventListener('pointermove', (event) => {
             mouse.x = event.clientX;
             mouse.y = event.clientY;
+
+            if (!isTouchDevice) {
+                const xAxis = (window.innerWidth / 2 - event.clientX) / 30;
+                const yAxis = (window.innerHeight / 2 - event.clientY) / 30;
+                tiltCard.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+            }
         }, { passive: true });
 
         window.addEventListener('pointerleave', () => {
             mouse.x = undefined;
             mouse.y = undefined;
+            if (!isTouchDevice) {
+                tiltCard.style.transform = `rotateY(0deg) rotateX(0deg)`;
+            }
         });
 
         function resize() {
@@ -390,11 +472,10 @@
                 ctx.fillStyle = `rgba(194, 140, 142, ${this.opacity})`;
                 ctx.fill();
 
-                // Delicate inner highlight
                 ctx.beginPath();
                 ctx.moveTo(0, 0);
                 ctx.quadraticCurveTo(this.size * 0.3, -this.size, 0, -this.size * 2.3);
-                ctx.strokeStyle = `rgba(255, 255, 255, ${this.opacity + 0.2})`;
+                ctx.strokeStyle = `rgba(166, 115, 117, ${this.opacity + 0.2})`;
                 ctx.lineWidth = 0.8;
                 ctx.stroke();
 
@@ -443,7 +524,7 @@
                 ctx.beginPath();
                 ctx.moveTo(0, -this.size * 2);
                 ctx.lineTo(0, this.size * 2);
-                ctx.strokeStyle = `rgba(255, 255, 255, ${this.opacity + 0.2})`;
+                ctx.strokeStyle = `rgba(106, 124, 111, ${this.opacity + 0.2})`;
                 ctx.lineWidth = 0.6;
                 ctx.stroke();
 
@@ -460,22 +541,14 @@
             reset() {
                 this.x = Math.random() * width;
                 this.y = height + 20 + Math.random() * 100;
-                // Add some tiny "gold dust" particles
-                this.isGoldDust = Math.random() > 0.8;
-                this.size = this.isGoldDust ? Math.random() * 1.5 + 0.5 : Math.random() * 4 + 1.5;
-                this.speed = this.isGoldDust ? Math.random() * 0.8 + 0.4 : Math.random() * 0.5 + 0.1;
-                this.opacity = Math.random() * 0.5 + 0.1;
+                this.size = Math.random() * 4 + 1.5;
+                this.speed = Math.random() * 0.5 + 0.1;
+                this.opacity = Math.random() * 0.4 + 0.1;
 
-                const type = Math.random();
-                if (this.isGoldDust) {
-                    this.color = `rgba(197, 160, 89, ${this.opacity})`; // Champagne Gold
-                } else if (type > 0.85) {
-                    this.color = `rgba(194, 140, 142, ${this.opacity})`; // Rose
-                } else if (type > 0.7) {
-                    this.color = `rgba(131, 151, 136, ${this.opacity})`; // Green
-                } else {
-                    this.color = `rgba(255, 255, 255, ${this.opacity})`; // White
-                }
+                const isRose = Math.random() > 0.5;
+                this.color = isRose
+                    ? `rgba(194, 140, 142, ${this.opacity})`
+                    : `rgba(131, 151, 136, ${this.opacity})`;
             }
 
             update() {
@@ -485,14 +558,11 @@
             }
 
             draw() {
-                // Soft glow for bokeh, none for gold dust
-                if (!this.isGoldDust) {
-                    ctx.beginPath();
-                    ctx.arc(this.x, this.y, this.size * 2.5, 0, Math.PI * 2);
-                    let glowColor = this.color.replace(/[\d.]+\)$/g, `${this.opacity * 0.3})`);
-                    ctx.fillStyle = glowColor;
-                    ctx.fill();
-                }
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size * 2.5, 0, Math.PI * 2);
+                let glowColor = this.color.replace(/[\d.]+\)$/g, `${this.opacity * 0.3})`);
+                ctx.fillStyle = glowColor;
+                ctx.fill();
 
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
@@ -501,9 +571,12 @@
             }
         }
 
-        const petalCount = 60;
-        const leafCount = 40;
-        const bokehCount = 100;
+        // Performance Optimization: Reduce particle counts on mobile screens
+        const isMobileScreen = window.innerWidth < 768;
+
+        const petalCount = isMobileScreen ? 35 : 60;
+        const leafCount = isMobileScreen ? 25 : 40;
+        const bokehCount = isMobileScreen ? 50 : 90;
 
         for (let i = 0; i < petalCount; i++) elements.push(new Petal());
         for (let i = 0; i < leafCount; i++) elements.push(new Leaf());
@@ -519,6 +592,30 @@
         }
 
         animate();
+
+        // --- Countdown Timer Logic ---
+        const weddingDate = new Date("January 7, 2027 10:00:00").getTime();
+
+        const timer = setInterval(function () {
+            const now = new Date().getTime();
+            const distance = weddingDate - now;
+
+            if (distance < 0) {
+                clearInterval(timer);
+                document.getElementById("countdown").innerHTML = "<p style='font-family: Montserrat; color: var(--dusty-rose); font-weight: bold;'>We are married!</p>";
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("days").innerText = days < 10 ? "0" + days : days;
+            document.getElementById("hours").innerText = hours < 10 ? "0" + hours : hours;
+            document.getElementById("minutes").innerText = minutes < 10 ? "0" + minutes : minutes;
+            document.getElementById("seconds").innerText = seconds < 10 ? "0" + seconds : seconds;
+        }, 1000);
     </script>
 </body>
 
