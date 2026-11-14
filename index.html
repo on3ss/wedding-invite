@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merciful & Leky - Wedding Invitation</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Montserrat:wght@300;400;500;600&family=Pinyon+Script&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --dusty-rose: #C28C8E;
+            --sage-green: #839788;
+            --champagne: #C5A059;
+            /* New Regal Gold Accent */
+            --text-dark: #4A4A4A;
+            --bg-color: #FDFCFB;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body,
+        html {
+            width: 100%;
+            min-height: 100%;
+            overflow-x: hidden;
+            background-color: var(--bg-color);
+        }
+
+        /* SVG Noise Texture for Cardstock Feel */
+        .texture-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+            opacity: 0.05;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* Subtle radial glow */
+        .ambient-glow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(197, 160, 89, 0.12) 0%, rgba(253, 252, 251, 0) 70%);
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        /* Canvas for optimized animation */
+        #fxCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 3;
+            pointer-events: none;
+        }
+
+        /* Typography & Layout */
+        .content-wrapper {
+            position: relative;
+            z-index: 4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            min-height: 100dvh;
+            width: 100vw;
+            padding: 2rem 1.5rem;
+            pointer-events: auto;
+        }
+
+        /* Regal Invitation Card */
+        .invite-card {
+            background-image: url('assets/bg.jpeg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-color: #ffffff;
+
+            /* Double border for regal feel */
+            border: 1px solid var(--champagne);
+            border-radius: 2px;
+            padding: 1.5rem;
+            text-align: center;
+            position: relative;
+            max-width: 580px;
+            width: 100%;
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.1), 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .invite-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Crystal Glass Backing with Gold Tint */
+        .card-content {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 4rem 3rem;
+            border-radius: 2px;
+            border: 1px solid rgba(197, 160, 89, 0.4);
+            box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+
+        .pre-title {
+            font-family: 'Pinyon Script', cursive;
+            font-size: 1.8rem;
+            font-weight: 400;
+            color: var(--champagne);
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        .names {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 600;
+            color: var(--dusty-rose);
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            letter-spacing: 5px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
+            transition: text-shadow 0.4s ease, transform 0.4s ease;
+            cursor: default;
+        }
+
+        .names:hover {
+            text-shadow: 0 0 25px rgba(194, 140, 142, 0.5);
+            transform: scale(1.02);
+        }
+
+        .names span {
+            font-family: 'Pinyon Script', cursive;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            color: var(--sage-green);
+            display: block;
+            margin: 0.2rem 0;
+            letter-spacing: 0;
+            transition: color 0.4s ease;
+        }
+
+        .names:hover span {
+            color: #6a7c6f;
+        }
+
+        /* Regal Gold Divider */
+        .divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 1.5rem 0;
+            color: var(--champagne);
+        }
+
+        .divider::before,
+        .divider::after {
+            content: "";
+            height: 1px;
+            width: 60px;
+            background: linear-gradient(to right, transparent, var(--champagne), transparent);
+        }
+
+        .divider svg {
+            width: 12px;
+            height: 12px;
+            margin: 0 15px;
+            fill: var(--champagne);
+            transform: rotate(45deg);
+        }
+
+        .save-the-date {
+            font-family: 'Pinyon Script', cursive;
+            font-size: 1.5rem;
+            color: var(--dusty-rose);
+            margin-bottom: 0.5rem;
+        }
+
+        .date {
+            font-family: 'Cinzel', serif;
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+            letter-spacing: 2px;
+        }
+
+        .location {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 500;
+            line-height: 1.6;
+            color: var(--sage-green);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+
+        .location:hover {
+            transform: scale(1.05);
+            color: #5d6e61;
+        }
+
+        .location-icon {
+            width: 22px;
+            height: 22px;
+            fill: var(--champagne);
+            transition: fill 0.3s ease, transform 0.3s ease;
+        }
+
+        .location:hover .location-icon {
+            fill: #A68344;
+            transform: translateY(-3px);
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 600px) {
+            .card-content {
+                padding: 3rem 1.5rem;
+            }
+
+            .names {
+                letter-spacing: 3px;
+            }
+
+            .divider::before,
+            .divider::after {
+                width: 40px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="texture-overlay"></div>
+    <div class="ambient-glow"></div>
+
+    <canvas id="fxCanvas"></canvas>
+
+    <div class="content-wrapper" id="interactionLayer">
+        <div class="invite-card">
+
+            <div class="card-content">
+                <p class="pre-title">We expect your presence<br>at our wedding</p>
+
+                <h1 class="names">
+                    MERCIFUL
+                    <span>&</span>
+                    LEKY
+                </h1>
+
+                <!-- New Regal Divider -->
+                <div class="divider">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2L22 12L12 22L2 12L12 2Z" />
+                    </svg>
+                </div>
+
+                <div>
+                    <p class="save-the-date">Save the Date</p>
+                    <p class="date">THURSDAY, JANUARY 8TH 2026</p>
+                </div>
+
+                <div class="location">
+                    <svg class="location-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+                    </svg>
+                    <p>St Claret Church, Phramer,<br>West Jaintia Hills</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('fxCanvas');
+        const ctx = canvas.getContext('2d');
+        const interactionLayer = document.getElementById('interactionLayer');
+
+        let width, height;
+        let elements = [];
+
+        let mouse = { x: undefined, y: undefined, radius: 120 };
+
+        window.addEventListener('pointermove', (event) => {
+            mouse.x = event.clientX;
+            mouse.y = event.clientY;
+        }, { passive: true });
+
+        window.addEventListener('pointerleave', () => {
+            mouse.x = undefined;
+            mouse.y = undefined;
+        });
+
+        function resize() {
+            const dpr = Math.min(window.devicePixelRatio || 1, 2);
+            width = window.innerWidth;
+            height = window.innerHeight;
+
+            canvas.width = Math.round(width * dpr);
+            canvas.height = Math.round(height * dpr);
+            canvas.style.width = width + 'px';
+            canvas.style.height = height + 'px';
+
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        }
+
+        window.addEventListener('resize', resize);
+        resize();
+
+        function applyMouseInteraction(particle) {
+            if (mouse.x != undefined && mouse.y != undefined) {
+                let dx = mouse.x - particle.x;
+                let dy = mouse.y - particle.y;
+                let distance = Math.sqrt(dx * dx + dy * dy);
+
+                if (distance > 0 && distance < mouse.radius) {
+                    const forceDirectionX = dx / distance;
+                    const forceDirectionY = dy / distance;
+                    const force = (mouse.radius - distance) / mouse.radius;
+                    const directionX = forceDirectionX * force * 3;
+                    const directionY = forceDirectionY * force * 3;
+
+                    particle.x -= directionX;
+                    particle.y -= directionY;
+                }
+            }
+        }
+
+        class Petal {
+            constructor() {
+                this.reset();
+                this.y = Math.random() * height;
+            }
+
+            reset() {
+                this.x = Math.random() * width;
+                this.y = -20 - Math.random() * 50;
+                this.size = Math.random() * 8 + 5;
+                this.speed = Math.random() * 1 + 0.5;
+                this.sway = Math.random() * 0.03;
+                this.swayAmount = Math.random() * 1.5;
+                this.angle = Math.random() * Math.PI * 2;
+                this.rotationSpeed = (Math.random() - 0.5) * 0.02;
+                this.opacity = Math.random() * 0.4 + 0.2;
+            }
+
+            update() {
+                this.y += this.speed;
+                this.x += Math.sin(this.y * this.sway) * this.swayAmount;
+                this.angle += this.rotationSpeed;
+                applyMouseInteraction(this);
+                if (this.y > height + 20 || this.x < -20 || this.x > width + 20) this.reset();
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.angle);
+
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.quadraticCurveTo(this.size, -this.size, 0, -this.size * 2.5);
+                ctx.quadraticCurveTo(-this.size, -this.size, 0, 0);
+                ctx.fillStyle = `rgba(194, 140, 142, ${this.opacity})`;
+                ctx.fill();
+
+                // Delicate inner highlight
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.quadraticCurveTo(this.size * 0.3, -this.size, 0, -this.size * 2.3);
+                ctx.strokeStyle = `rgba(255, 255, 255, ${this.opacity + 0.2})`;
+                ctx.lineWidth = 0.8;
+                ctx.stroke();
+
+                ctx.restore();
+            }
+        }
+
+        class Leaf {
+            constructor() {
+                this.reset();
+                this.y = Math.random() * height;
+            }
+
+            reset() {
+                this.x = Math.random() * width;
+                this.y = -20 - Math.random() * 50;
+                this.size = Math.random() * 6 + 4;
+                this.speed = Math.random() * 0.8 + 0.4;
+                this.sway = Math.random() * 0.02;
+                this.swayAmount = Math.random() * 2;
+                this.angle = Math.random() * Math.PI * 2;
+                this.rotationSpeed = (Math.random() - 0.5) * 0.015;
+                this.opacity = Math.random() * 0.4 + 0.25;
+            }
+
+            update() {
+                this.y += this.speed;
+                this.x += Math.cos(this.y * this.sway) * this.swayAmount;
+                this.angle += this.rotationSpeed;
+                applyMouseInteraction(this);
+                if (this.y > height + 20 || this.x < -20 || this.x > width + 20) this.reset();
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.angle);
+
+                ctx.beginPath();
+                ctx.moveTo(0, -this.size * 2.2);
+                ctx.quadraticCurveTo(this.size * 1.5, 0, 0, this.size * 2.2);
+                ctx.quadraticCurveTo(-this.size * 1.5, 0, 0, -this.size * 2.2);
+                ctx.fillStyle = `rgba(131, 151, 136, ${this.opacity})`;
+                ctx.fill();
+
+                ctx.beginPath();
+                ctx.moveTo(0, -this.size * 2);
+                ctx.lineTo(0, this.size * 2);
+                ctx.strokeStyle = `rgba(255, 255, 255, ${this.opacity + 0.2})`;
+                ctx.lineWidth = 0.6;
+                ctx.stroke();
+
+                ctx.restore();
+            }
+        }
+
+        class Bokeh {
+            constructor() {
+                this.reset();
+                this.y = Math.random() * height;
+            }
+
+            reset() {
+                this.x = Math.random() * width;
+                this.y = height + 20 + Math.random() * 100;
+                // Add some tiny "gold dust" particles
+                this.isGoldDust = Math.random() > 0.8;
+                this.size = this.isGoldDust ? Math.random() * 1.5 + 0.5 : Math.random() * 4 + 1.5;
+                this.speed = this.isGoldDust ? Math.random() * 0.8 + 0.4 : Math.random() * 0.5 + 0.1;
+                this.opacity = Math.random() * 0.5 + 0.1;
+
+                const type = Math.random();
+                if (this.isGoldDust) {
+                    this.color = `rgba(197, 160, 89, ${this.opacity})`; // Champagne Gold
+                } else if (type > 0.85) {
+                    this.color = `rgba(194, 140, 142, ${this.opacity})`; // Rose
+                } else if (type > 0.7) {
+                    this.color = `rgba(131, 151, 136, ${this.opacity})`; // Green
+                } else {
+                    this.color = `rgba(255, 255, 255, ${this.opacity})`; // White
+                }
+            }
+
+            update() {
+                this.y -= this.speed;
+                applyMouseInteraction(this);
+                if (this.y < -20) this.reset();
+            }
+
+            draw() {
+                // Soft glow for bokeh, none for gold dust
+                if (!this.isGoldDust) {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size * 2.5, 0, Math.PI * 2);
+                    let glowColor = this.color.replace(/[\d.]+\)$/g, `${this.opacity * 0.3})`);
+                    ctx.fillStyle = glowColor;
+                    ctx.fill();
+                }
+
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+            }
+        }
+
+        const petalCount = 60;
+        const leafCount = 40;
+        const bokehCount = 100;
+
+        for (let i = 0; i < petalCount; i++) elements.push(new Petal());
+        for (let i = 0; i < leafCount; i++) elements.push(new Leaf());
+        for (let i = 0; i < bokehCount; i++) elements.push(new Bokeh());
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            elements.forEach(el => {
+                el.update();
+                el.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+    </script>
+</body>
+
+</html>
