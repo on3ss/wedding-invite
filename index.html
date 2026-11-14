@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Merciful & Leky - Wedding Invitation</title>
 
     <!-- Google Fonts -->
@@ -30,17 +30,22 @@
             -webkit-tap-highlight-color: transparent;
         }
 
+        /* Absolutely prevents any scrolling on the page */
         body,
         html {
-            width: 100%;
-            min-height: 100%;
-            overflow-x: hidden;
+            width: 100vw;
+            height: 100vh;
+            height: 100dvh;
+            overflow: hidden;
             background-color: var(--bg-color);
+            position: fixed;
+            top: 0;
+            left: 0;
         }
 
         /* SVG Noise Texture for Cardstock Feel */
         .texture-overlay {
-            position: fixed;
+            position: absolute;
             top: 0;
             left: 0;
             width: 100%;
@@ -53,7 +58,7 @@
 
         /* Subtle radial glow */
         .ambient-glow {
-            position: fixed;
+            position: absolute;
             top: 0;
             left: 0;
             width: 100%;
@@ -65,7 +70,7 @@
 
         /* Canvas for optimized animation */
         #fxCanvas {
-            position: fixed;
+            position: absolute;
             top: 0;
             left: 0;
             width: 100%;
@@ -81,10 +86,10 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            min-height: 100vh;
-            min-height: 100dvh;
-            width: 100vw;
-            padding: 2rem 1.5rem;
+            width: 100%;
+            height: 100%;
+            padding: 1.5vh 4vw;
+            /* Fluid padding based on viewport height/width */
             perspective: 1500px;
         }
 
@@ -92,7 +97,6 @@
         .invite-card {
             background-image: url('assets/bg.jpeg');
             background-size: 100% 100%;
-            /* Stretches to fit the card perfectly */
             background-position: center;
             background-repeat: no-repeat;
             background-color: #ffffff;
@@ -100,18 +104,26 @@
             border: 1px solid rgba(194, 140, 142, 0.3);
             border-radius: 4px;
 
-            /* Outer padding creates the visible floral border */
-            padding: 2rem;
+            /* Ensure card never exceeds screen height */
+            max-height: 96vh;
+            max-height: 96dvh;
+            width: 100%;
+            max-width: 550px;
+
+            /* Fluid padding so the floral frame scales with the screen */
+            padding: clamp(1rem, 4vh, 3rem) clamp(1rem, 4vw, 2.5rem);
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
             text-align: center;
             position: relative;
-            max-width: 550px;
-            width: 100%;
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1), 0 5px 15px rgba(0, 0, 0, 0.05);
 
             transform-style: preserve-3d;
             transition: transform 0.1s ease-out, box-shadow 0.5s ease;
             user-select: none;
-            /* Prevents text highlighting on mobile taps */
 
             opacity: 0;
             animation: fadeInUp 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
@@ -120,7 +132,7 @@
         @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: translateY(40px);
+                transform: translateY(20px);
             }
 
             to {
@@ -131,134 +143,138 @@
 
         /* The glass layer that protects the text from the flowers */
         .card-content {
-            background: rgba(255, 255, 255, 0.35);
-            /* Very transparent */
+            background: rgba(255, 255, 255, 0.45);
             backdrop-filter: blur(8px);
-            /* Blurs the flowers behind the text */
             -webkit-backdrop-filter: blur(8px);
-            padding: 2.5rem 1.5rem;
             border-radius: 8px;
             border: 1px solid rgba(255, 255, 255, 0.5);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
             transform: translateZ(30px);
+
+            /* Fluid inner padding to keep text off the edges */
+            padding: clamp(1rem, 3vh, 2.5rem) clamp(0.5rem, 3vw, 1.5rem);
         }
 
         .pre-title {
             font-family: 'Montserrat', sans-serif;
-            font-size: 0.85rem;
+            font-size: clamp(0.6rem, 1.5vh, 0.85rem);
             font-weight: 600;
             letter-spacing: 3px;
             color: var(--sage-green);
-            margin-bottom: 2rem;
+            margin-bottom: clamp(0.5rem, 2vh, 2rem);
             text-transform: uppercase;
         }
 
         .names {
             font-family: 'Cinzel', serif;
-            font-size: clamp(2.2rem, 6vw, 4rem);
+            font-size: clamp(1.6rem, 6vh, 4rem);
             font-weight: 600;
             color: var(--dusty-rose);
-            line-height: 1.2;
-            margin-bottom: 1.5rem;
-            letter-spacing: 4px;
+            line-height: 1.1;
+            margin-bottom: clamp(0.5rem, 2vh, 1.5rem);
+            letter-spacing: 3px;
             cursor: default;
         }
 
         .names span {
-            font-size: clamp(1.5rem, 4vw, 3rem);
+            font-size: clamp(1.2rem, 4vh, 3rem);
             color: var(--sage-green);
             display: block;
-            margin: 0.5rem 0;
+            margin: clamp(0.2rem, 1vh, 0.5rem) 0;
         }
 
         /* Countdown Timer */
         .countdown {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 2rem;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: clamp(4px, 1vw, 10px);
+            margin-bottom: clamp(0.8rem, 2.5vh, 2rem);
+            width: 100%;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .time-block {
             display: flex;
             flex-direction: column;
             align-items: center;
-            background: rgba(255, 255, 255, 0.8);
-            padding: 10px;
+            background: rgba(255, 255, 255, 0.85);
+            padding: clamp(4px, 1vh, 10px);
             border-radius: 6px;
             border: 1px solid rgba(194, 140, 142, 0.3);
-            min-width: 65px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
         }
 
         .time-block span:first-child {
             font-family: 'Cinzel', serif;
-            font-size: 1.3rem;
+            font-size: clamp(0.9rem, 2.5vh, 1.3rem);
             font-weight: 600;
             color: var(--dusty-rose);
         }
 
         .time-block span:last-child {
             font-family: 'Montserrat', sans-serif;
-            font-size: 0.6rem;
+            font-size: clamp(0.45rem, 1.2vh, 0.6rem);
             text-transform: uppercase;
             letter-spacing: 1px;
             color: var(--sage-green);
-            margin-top: 4px;
+            margin-top: 2px;
         }
 
         .save-the-date {
             font-family: 'Montserrat', sans-serif;
-            font-size: 0.9rem;
+            font-size: clamp(0.65rem, 1.8vh, 0.9rem);
             font-style: italic;
             font-weight: 600;
             color: var(--dusty-rose);
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.2rem;
             letter-spacing: 2px;
         }
 
         .date {
             font-family: 'Cinzel', serif;
-            font-size: 1.1rem;
+            font-size: clamp(0.8rem, 2.2vh, 1.1rem);
             font-weight: 600;
             color: var(--text-dark);
-            margin-bottom: 1.5rem;
+            margin-bottom: clamp(0.8rem, 2vh, 1.5rem);
             letter-spacing: 1px;
         }
 
         .location {
             font-family: 'Montserrat', sans-serif;
-            font-size: 0.9rem;
+            font-size: clamp(0.7rem, 1.8vh, 0.9rem);
             font-weight: 600;
-            line-height: 1.6;
+            line-height: 1.4;
             color: var(--sage-green-dark);
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.2rem;
             text-decoration: none;
-            transition: transform 0.3s ease;
-            margin-bottom: 2rem;
+            margin-bottom: clamp(0.8rem, 2.5vh, 2rem);
         }
 
         .location-icon {
-            width: 24px;
-            height: 24px;
+            width: clamp(16px, 3vh, 24px);
+            height: clamp(16px, 3vh, 24px);
             fill: var(--dusty-rose);
-            transition: fill 0.3s ease, transform 0.3s ease;
         }
 
         /* Add to Calendar Button */
         .btn-calendar {
-            display: inline-block;
+            display: block;
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto;
             font-family: 'Montserrat', sans-serif;
-            font-size: 0.75rem;
+            font-size: clamp(0.6rem, 1.5vh, 0.75rem);
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 2px;
             text-decoration: none;
             color: #fff;
-            padding: 12px 25px;
+            padding: clamp(8px, 1.5vh, 12px) 15px;
             border: 1px solid var(--dusty-rose);
             border-radius: 30px;
             transition: all 0.3s ease;
@@ -266,48 +282,40 @@
             box-shadow: 0 4px 15px rgba(194, 140, 142, 0.3);
         }
 
-        /* =========================================
-           MOBILE OPTIMIZATIONS
-           ========================================= */
-        @media (max-width: 600px) {
-            .content-wrapper {
-                padding: 1.5rem 1rem;
-                /* Slightly more margin around the card */
+        /* Disable hover effects on touch devices for smoother UX */
+        @media (hover: hover) {
+            .btn-calendar:hover {
+                background: var(--dusty-rose-dark);
+                border-color: var(--dusty-rose-dark);
+                box-shadow: 0 6px 20px rgba(194, 140, 142, 0.4);
             }
 
+            .location:hover {
+                transform: scale(1.02);
+            }
+        }
+
+        /* Special small height adjustments (e.g. landscape phones) */
+        @media (max-height: 600px) {
             .invite-card {
-                padding: 1.5rem 1rem;
-                /* Thinner floral border on mobile */
-                transform: none !important;
+                max-width: 700px;
+                /* Make it wider so it's shorter */
+                padding: 1rem 2rem;
             }
 
             .card-content {
-                padding: 2rem 1rem;
-                /* Inner glass layer padding */
-            }
-
-            .names {
-                letter-spacing: 2px;
-            }
-
-            .countdown {
+                padding: 1rem;
                 display: grid;
-                grid-template-columns: repeat(4, 1fr);
-                gap: 6px;
+                grid-template-columns: 1fr 1fr;
+                gap: 1rem;
+                align-items: center;
             }
 
-            .time-block {
-                min-width: 0;
-                padding: 8px 4px;
-            }
-
-            .time-block span:first-child {
-                font-size: 1.1rem;
-            }
-
-            .btn-calendar {
-                display: block;
-                width: 100%;
+            .left-col,
+            .right-col {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
             }
         }
     </style>
@@ -323,44 +331,48 @@
     <div class="content-wrapper" id="interactionLayer">
         <div class="invite-card" id="tiltCard">
 
-            <!-- This transparent glass box protects the text from the flowers -->
             <div class="card-content">
-                <p class="pre-title">We expect your presence<br>at our wedding</p>
-
-                <h1 class="names">
-                    MERCIFUL
-                    <span>&</span>
-                    LEKY
-                </h1>
-
-                <!-- Live Countdown -->
-                <div class="countdown" id="countdown">
-                    <div class="time-block"><span id="days">00</span><span>Days</span></div>
-                    <div class="time-block"><span id="hours">00</span><span>Hours</span></div>
-                    <div class="time-block"><span id="minutes">00</span><span>Mins</span></div>
-                    <div class="time-block"><span id="seconds">00</span><span>Secs</span></div>
+                <!-- Left Column (or top on mobile) -->
+                <div class="left-col">
+                    <p class="pre-title">We expect your presence<br>at our wedding</p>
+                    <h1 class="names">
+                        MERCIFUL
+                        <span>&</span>
+                        LEKY
+                    </h1>
                 </div>
 
-                <div>
-                    <p class="save-the-date">Save the Date</p>
-                    <p class="date">Thursday, January 7th 2027</p>
+                <!-- Right Column (or bottom on mobile) -->
+                <div class="right-col">
+                    <!-- Live Countdown -->
+                    <div class="countdown" id="countdown">
+                        <div class="time-block"><span id="days">00</span><span>Days</span></div>
+                        <div class="time-block"><span id="hours">00</span><span>Hours</span></div>
+                        <div class="time-block"><span id="minutes">00</span><span>Mins</span></div>
+                        <div class="time-block"><span id="seconds">00</span><span>Secs</span></div>
+                    </div>
+
+                    <div>
+                        <p class="save-the-date">Save the Date</p>
+                        <p class="date">Thursday, January 7th 2027</p>
+                    </div>
+
+                    <!-- Location clickable link to Google Maps -->
+                    <a href="https://maps.google.com/?q=St+Claret+Church+Phramer+West+Jaintia+Hills" target="_blank"
+                        rel="noopener" class="location">
+                        <svg class="location-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+                        </svg>
+                        <p>St Claret Church, Phramer,<br>West Jaintia Hills</p>
+                    </a>
+
+                    <!-- Add to Calendar Link -->
+                    <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Merciful+%26+Leky%27s+Wedding&dates=20270107T100000Z/20270107T160000Z&details=We+expect+your+presence+at+our+wedding!&location=St+Claret+Church,+Phramer,+West+Jaintia+Hills"
+                        target="_blank" rel="noopener" class="btn-calendar">
+                        Add to Calendar
+                    </a>
                 </div>
-
-                <!-- Location clickable link to Google Maps -->
-                <a href="https://maps.google.com/?q=St+Claret+Church+Phramer+West+Jaintia+Hills" target="_blank"
-                    rel="noopener" class="location">
-                    <svg class="location-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
-                    </svg>
-                    <p>St Claret Church, Phramer,<br>West Jaintia Hills</p>
-                </a>
-
-                <!-- Add to Calendar Link -->
-                <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Merciful+%26+Leky%27s+Wedding&dates=20270107T100000Z/20270107T160000Z&details=We+expect+your+presence+at+our+wedding!&location=St+Claret+Church,+Phramer,+West+Jaintia+Hills"
-                    target="_blank" rel="noopener" class="btn-calendar">
-                    Add to Calendar
-                </a>
             </div>
 
         </div>
@@ -369,7 +381,6 @@
     <script>
         const canvas = document.getElementById('fxCanvas');
         const ctx = canvas.getContext('2d');
-        const interactionLayer = document.getElementById('interactionLayer');
         const tiltCard = document.getElementById('tiltCard');
 
         const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
@@ -571,12 +582,12 @@
             }
         }
 
-        // Performance Optimization: Reduce particle counts on mobile screens
+        // Performance Optimization: Reduce particle counts on smaller screens
         const isMobileScreen = window.innerWidth < 768;
 
-        const petalCount = isMobileScreen ? 35 : 60;
-        const leafCount = isMobileScreen ? 25 : 40;
-        const bokehCount = isMobileScreen ? 50 : 90;
+        const petalCount = isMobileScreen ? 30 : 60;
+        const leafCount = isMobileScreen ? 20 : 40;
+        const bokehCount = isMobileScreen ? 40 : 90;
 
         for (let i = 0; i < petalCount; i++) elements.push(new Petal());
         for (let i = 0; i < leafCount; i++) elements.push(new Leaf());
@@ -602,7 +613,7 @@
 
             if (distance < 0) {
                 clearInterval(timer);
-                document.getElementById("countdown").innerHTML = "<p style='font-family: Montserrat; color: var(--dusty-rose); font-weight: bold;'>We are married!</p>";
+                document.getElementById("countdown").innerHTML = "<p style='font-family: Montserrat; color: var(--dusty-rose); font-weight: bold; width: 100%; grid-column: span 4;'>We are married!</p>";
                 return;
             }
 
