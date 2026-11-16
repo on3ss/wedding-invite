@@ -30,7 +30,7 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* Absolutely prevents any scrolling on the page */
+        /* Prevents scrolling entirely on all devices */
         body,
         html {
             width: 100vw;
@@ -41,6 +41,9 @@
             position: fixed;
             top: 0;
             left: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         /* SVG Noise Texture for Cardstock Feel */
@@ -79,7 +82,9 @@
             pointer-events: none;
         }
 
-        /* Typography & Layout */
+        /* =========================================
+           MOBILE FIRST BASE STYLES (Un-squished)
+           ========================================= */
         .content-wrapper {
             position: relative;
             z-index: 4;
@@ -88,8 +93,7 @@
             justify-content: center;
             width: 100%;
             height: 100%;
-            padding: 1.5vh 4vw;
-            /* Fluid padding based on viewport height/width */
+            padding: 1rem;
             perspective: 1500px;
         }
 
@@ -102,16 +106,17 @@
             background-color: #ffffff;
 
             border: 1px solid rgba(194, 140, 142, 0.3);
-            border-radius: 4px;
+            border-radius: 8px;
 
-            /* Ensure card never exceeds screen height */
-            max-height: 96vh;
-            max-height: 96dvh;
+            /* Perfectly matches the 11:14 ratio of the image */
+            aspect-ratio: 11 / 14;
             width: 100%;
-            max-width: 550px;
+            max-width: 96vw;
+            /* Slightly wider on mobile */
+            max-height: 96dvh;
 
-            /* Fluid padding so the floral frame scales with the screen */
-            padding: clamp(1rem, 4vh, 3rem) clamp(1rem, 4vw, 2.5rem);
+            /* Reduced outer padding to let the glass box be larger */
+            padding: 1rem;
 
             display: flex;
             flex-direction: column;
@@ -119,10 +124,9 @@
 
             text-align: center;
             position: relative;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1), 0 5px 15px rgba(0, 0, 0, 0.05);
-
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
             transform-style: preserve-3d;
-            transition: transform 0.1s ease-out, box-shadow 0.5s ease;
+            transition: transform 0.2s ease-out, box-shadow 0.5s ease;
             user-select: none;
 
             opacity: 0;
@@ -143,179 +147,263 @@
 
         /* The glass layer that protects the text from the flowers */
         .card-content {
-            background: rgba(255, 255, 255, 0.45);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
             transform: translateZ(30px);
 
-            /* Fluid inner padding to keep text off the edges */
-            padding: clamp(1rem, 3vh, 2.5rem) clamp(0.5rem, 3vw, 1.5rem);
+            /* Significantly increased padding and gap for breathing room */
+            padding: 2.5rem 1.2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.8rem;
         }
 
+        /* Wrap the left and right sections with flex for even spacing */
+        .left-col,
+        .right-col {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        /* Mobile Typography */
         .pre-title {
             font-family: 'Montserrat', sans-serif;
-            font-size: clamp(0.6rem, 1.5vh, 0.85rem);
+            font-size: clamp(0.6rem, 3vw, 0.85rem);
             font-weight: 600;
-            letter-spacing: 3px;
+            letter-spacing: 2px;
             color: var(--sage-green);
-            margin-bottom: clamp(0.5rem, 2vh, 2rem);
             text-transform: uppercase;
+            line-height: 1.4;
         }
 
         .names {
             font-family: 'Cinzel', serif;
-            font-size: clamp(1.6rem, 6vh, 4rem);
+            font-size: clamp(2rem, 9vw, 3.5rem);
             font-weight: 600;
             color: var(--dusty-rose);
             line-height: 1.1;
-            margin-bottom: clamp(0.5rem, 2vh, 1.5rem);
-            letter-spacing: 3px;
+            letter-spacing: 2px;
             cursor: default;
+            transition: text-shadow 0.4s ease, letter-spacing 0.4s ease;
         }
 
         .names span {
-            font-size: clamp(1.2rem, 4vh, 3rem);
+            font-size: clamp(1.4rem, 6vw, 2rem);
             color: var(--sage-green);
             display: block;
-            margin: clamp(0.2rem, 1vh, 0.5rem) 0;
+            margin: 0.3rem 0;
+            transition: color 0.4s ease;
         }
 
         /* Countdown Timer */
         .countdown {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: clamp(4px, 1vw, 10px);
-            margin-bottom: clamp(0.8rem, 2.5vh, 2rem);
+            gap: 8px;
             width: 100%;
-            max-width: 400px;
-            margin-left: auto;
-            margin-right: auto;
+            max-width: 320px;
+            margin: 0 auto;
         }
 
         .time-block {
             display: flex;
             flex-direction: column;
             align-items: center;
-            background: rgba(255, 255, 255, 0.85);
-            padding: clamp(4px, 1vh, 10px);
-            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px 4px;
+            border-radius: 4px;
             border: 1px solid rgba(194, 140, 142, 0.3);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
         }
 
         .time-block span:first-child {
             font-family: 'Cinzel', serif;
-            font-size: clamp(0.9rem, 2.5vh, 1.3rem);
+            font-size: clamp(1.1rem, 4.5vw, 1.3rem);
             font-weight: 600;
             color: var(--dusty-rose);
         }
 
         .time-block span:last-child {
             font-family: 'Montserrat', sans-serif;
-            font-size: clamp(0.45rem, 1.2vh, 0.6rem);
+            font-size: clamp(0.5rem, 2.2vw, 0.6rem);
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
             color: var(--sage-green);
             margin-top: 2px;
         }
 
         .save-the-date {
             font-family: 'Montserrat', sans-serif;
-            font-size: clamp(0.65rem, 1.8vh, 0.9rem);
+            font-size: clamp(0.7rem, 3vw, 0.9rem);
             font-style: italic;
             font-weight: 600;
             color: var(--dusty-rose);
             margin-bottom: 0.2rem;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
         }
 
         .date {
             font-family: 'Cinzel', serif;
-            font-size: clamp(0.8rem, 2.2vh, 1.1rem);
+            font-size: clamp(0.85rem, 3.8vw, 1.1rem);
             font-weight: 600;
             color: var(--text-dark);
-            margin-bottom: clamp(0.8rem, 2vh, 1.5rem);
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
         }
 
         .location {
             font-family: 'Montserrat', sans-serif;
-            font-size: clamp(0.7rem, 1.8vh, 0.9rem);
+            font-size: clamp(0.75rem, 3.2vw, 0.9rem);
             font-weight: 600;
             line-height: 1.4;
             color: var(--sage-green-dark);
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 0.2rem;
+            gap: 0.3rem;
             text-decoration: none;
-            margin-bottom: clamp(0.8rem, 2.5vh, 2rem);
+            transition: transform 0.3s ease, color 0.3s ease;
         }
 
         .location-icon {
-            width: clamp(16px, 3vh, 24px);
-            height: clamp(16px, 3vh, 24px);
+            width: clamp(18px, 5vw, 24px);
+            height: clamp(18px, 5vw, 24px);
             fill: var(--dusty-rose);
+            transition: transform 0.3s ease, fill 0.3s ease;
         }
 
         /* Add to Calendar Button */
         .btn-calendar {
             display: block;
             width: 100%;
-            max-width: 300px;
+            max-width: 280px;
             margin: 0 auto;
             font-family: 'Montserrat', sans-serif;
-            font-size: clamp(0.6rem, 1.5vh, 0.75rem);
+            font-size: clamp(0.65rem, 2.8vw, 0.75rem);
             font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 1.5px;
             text-decoration: none;
             color: #fff;
-            padding: clamp(8px, 1.5vh, 12px) 15px;
+            padding: clamp(10px, 3vw, 12px) 15px;
             border: 1px solid var(--dusty-rose);
             border-radius: 30px;
-            transition: all 0.3s ease;
             background: var(--dusty-rose);
             box-shadow: 0 4px 15px rgba(194, 140, 142, 0.3);
+            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
-        /* Disable hover effects on touch devices for smoother UX */
-        @media (hover: hover) {
-            .btn-calendar:hover {
-                background: var(--dusty-rose-dark);
-                border-color: var(--dusty-rose-dark);
-                box-shadow: 0 6px 20px rgba(194, 140, 142, 0.4);
+        /* =========================================
+           DESKTOP & TABLET ENHANCEMENTS
+           ========================================= */
+        @media (min-width: 600px) {
+            .content-wrapper {
+                padding: 2rem;
             }
 
-            .location:hover {
-                transform: scale(1.02);
-            }
-        }
-
-        /* Special small height adjustments (e.g. landscape phones) */
-        @media (max-height: 600px) {
             .invite-card {
-                max-width: 700px;
-                /* Make it wider so it's shorter */
-                padding: 1rem 2rem;
+                max-width: min(550px, 90vw, calc(90dvh * 11 / 14));
+                padding: 2.5rem;
             }
 
             .card-content {
-                padding: 1rem;
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                gap: 1rem;
-                align-items: center;
+                padding: 3rem 2rem;
+                gap: 2rem;
             }
 
             .left-col,
             .right-col {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
+                gap: 1.5rem;
+            }
+
+            .countdown {
+                gap: 10px;
+                max-width: 360px;
+            }
+
+            .time-block {
+                padding: 12px;
+            }
+
+            @media (hover: hover) {
+                .invite-card:hover {
+                    box-shadow: 0 25px 45px rgba(0, 0, 0, 0.15), 0 10px 20px rgba(0, 0, 0, 0.05);
+                }
+
+                .names:hover {
+                    text-shadow: 0 0 20px rgba(194, 140, 142, 0.5);
+                    letter-spacing: 4px;
+                }
+
+                .names:hover span {
+                    color: var(--sage-green-dark);
+                }
+
+                .time-block:hover {
+                    transform: translateY(-4px);
+                    box-shadow: 0 8px 15px rgba(194, 140, 142, 0.15);
+                    border-color: rgba(194, 140, 142, 0.6);
+                }
+
+                .location:hover {
+                    transform: translateY(-2px);
+                    color: var(--dusty-rose-dark);
+                }
+
+                .location:hover .location-icon {
+                    transform: translateY(-3px) scale(1.1);
+                    fill: var(--dusty-rose-dark);
+                }
+
+                .btn-calendar:hover {
+                    background: var(--dusty-rose-dark);
+                    border-color: var(--dusty-rose-dark);
+                    box-shadow: 0 8px 20px rgba(194, 140, 142, 0.5);
+                    transform: translateY(-3px);
+                }
+            }
+        }
+
+        /* =========================================
+           LANDSCAPE / SHORT SCREEN OVERRIDES
+           ========================================= */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .invite-card {
+                aspect-ratio: auto;
+                max-width: 85vw;
+                max-height: 92dvh;
+                padding: 1rem;
+                border-radius: 6px;
+            }
+
+            .card-content {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 1.5rem;
+                padding: 1.2rem;
+            }
+
+            .left-col,
+            .right-col {
+                gap: 0.8rem;
+            }
+
+            .pre-title {
+                display: none;
+            }
+
+            .names {
+                font-size: clamp(1.5rem, 5vw, 2.5rem);
+            }
+
+            .countdown {
+                grid-template-columns: repeat(2, 1fr);
+                max-width: 200px;
             }
         }
     </style>
@@ -325,14 +413,13 @@
 
     <div class="texture-overlay"></div>
     <div class="ambient-glow"></div>
-
     <canvas id="fxCanvas"></canvas>
 
     <div class="content-wrapper" id="interactionLayer">
         <div class="invite-card" id="tiltCard">
 
             <div class="card-content">
-                <!-- Left Column (or top on mobile) -->
+
                 <div class="left-col">
                     <p class="pre-title">We expect your presence<br>at our wedding</p>
                     <h1 class="names">
@@ -342,9 +429,7 @@
                     </h1>
                 </div>
 
-                <!-- Right Column (or bottom on mobile) -->
                 <div class="right-col">
-                    <!-- Live Countdown -->
                     <div class="countdown" id="countdown">
                         <div class="time-block"><span id="days">00</span><span>Days</span></div>
                         <div class="time-block"><span id="hours">00</span><span>Hours</span></div>
@@ -357,7 +442,6 @@
                         <p class="date">Thursday, January 7th 2027</p>
                     </div>
 
-                    <!-- Location clickable link to Google Maps -->
                     <a href="https://maps.google.com/?q=St+Claret+Church+Phramer+West+Jaintia+Hills" target="_blank"
                         rel="noopener" class="location">
                         <svg class="location-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -367,12 +451,12 @@
                         <p>St Claret Church, Phramer,<br>West Jaintia Hills</p>
                     </a>
 
-                    <!-- Add to Calendar Link -->
                     <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Merciful+%26+Leky%27s+Wedding&dates=20270107T100000Z/20270107T160000Z&details=We+expect+your+presence+at+our+wedding!&location=St+Claret+Church,+Phramer,+West+Jaintia+Hills"
                         target="_blank" rel="noopener" class="btn-calendar">
                         Add to Calendar
                     </a>
                 </div>
+
             </div>
 
         </div>
@@ -390,7 +474,6 @@
 
         let mouse = { x: undefined, y: undefined, radius: 120 };
 
-        // 3D Tilt and Particle Interaction
         window.addEventListener('pointermove', (event) => {
             mouse.x = event.clientX;
             mouse.y = event.clientY;
@@ -454,19 +537,22 @@
             reset() {
                 this.x = Math.random() * width;
                 this.y = -20 - Math.random() * 50;
-                this.size = Math.random() * 8 + 5;
+                this.size = Math.random() * 6 + 4;
                 this.speed = Math.random() * 1 + 0.5;
                 this.sway = Math.random() * 0.03;
                 this.swayAmount = Math.random() * 1.5;
                 this.angle = Math.random() * Math.PI * 2;
                 this.rotationSpeed = (Math.random() - 0.5) * 0.02;
-                this.opacity = Math.random() * 0.4 + 0.2;
+                this.opacity = Math.random() * 0.4 + 0.3;
+                this.flip = Math.random() * Math.PI * 2;
+                this.flipSpeed = Math.random() * 0.05 + 0.02;
             }
 
             update() {
                 this.y += this.speed;
                 this.x += Math.sin(this.y * this.sway) * this.swayAmount;
                 this.angle += this.rotationSpeed;
+                this.flip += this.flipSpeed;
                 applyMouseInteraction(this);
                 if (this.y > height + 20 || this.x < -20 || this.x > width + 20) this.reset();
             }
@@ -475,18 +561,20 @@
                 ctx.save();
                 ctx.translate(this.x, this.y);
                 ctx.rotate(this.angle);
+                ctx.scale(Math.cos(this.flip), 1);
 
                 ctx.beginPath();
                 ctx.moveTo(0, 0);
-                ctx.quadraticCurveTo(this.size, -this.size, 0, -this.size * 2.5);
-                ctx.quadraticCurveTo(-this.size, -this.size, 0, 0);
+                ctx.bezierCurveTo(this.size * 1.2, -this.size * 0.5, this.size * 1.2, -this.size * 2, 0, -this.size * 2.5);
+                ctx.bezierCurveTo(-this.size * 1.2, -this.size * 2, -this.size * 1.2, -this.size * 0.5, 0, 0);
+
                 ctx.fillStyle = `rgba(194, 140, 142, ${this.opacity})`;
                 ctx.fill();
 
                 ctx.beginPath();
-                ctx.moveTo(0, 0);
-                ctx.quadraticCurveTo(this.size * 0.3, -this.size, 0, -this.size * 2.3);
-                ctx.strokeStyle = `rgba(166, 115, 117, ${this.opacity + 0.2})`;
+                ctx.moveTo(0, -this.size * 0.2);
+                ctx.quadraticCurveTo(this.size * 0.2, -this.size * 1.5, 0, -this.size * 2.3);
+                ctx.strokeStyle = `rgba(166, 115, 117, ${this.opacity + 0.15})`;
                 ctx.lineWidth = 0.8;
                 ctx.stroke();
 
@@ -503,7 +591,7 @@
             reset() {
                 this.x = Math.random() * width;
                 this.y = -20 - Math.random() * 50;
-                this.size = Math.random() * 6 + 4;
+                this.size = Math.random() * 5 + 3;
                 this.speed = Math.random() * 0.8 + 0.4;
                 this.sway = Math.random() * 0.02;
                 this.swayAmount = Math.random() * 2;
@@ -526,18 +614,25 @@
                 ctx.rotate(this.angle);
 
                 ctx.beginPath();
-                ctx.moveTo(0, -this.size * 2.2);
-                ctx.quadraticCurveTo(this.size * 1.5, 0, 0, this.size * 2.2);
-                ctx.quadraticCurveTo(-this.size * 1.5, 0, 0, -this.size * 2.2);
+                ctx.moveTo(0, -this.size * 2.5);
+                ctx.bezierCurveTo(this.size * 1.5, -this.size * 1, this.size * 1.5, this.size, 0, this.size * 2.5);
+                ctx.bezierCurveTo(-this.size * 1.5, this.size, -this.size * 1.5, -this.size * 1, 0, -this.size * 2.5);
+
                 ctx.fillStyle = `rgba(131, 151, 136, ${this.opacity})`;
                 ctx.fill();
 
                 ctx.beginPath();
-                ctx.moveTo(0, -this.size * 2);
-                ctx.lineTo(0, this.size * 2);
+                ctx.moveTo(0, -this.size * 2.3);
+                ctx.lineTo(0, this.size * 2.3);
                 ctx.strokeStyle = `rgba(106, 124, 111, ${this.opacity + 0.2})`;
-                ctx.lineWidth = 0.6;
+                ctx.lineWidth = 0.8;
                 ctx.stroke();
+
+                ctx.lineWidth = 0.5;
+                ctx.beginPath(); ctx.moveTo(0, -this.size * 1); ctx.lineTo(this.size * 0.8, -this.size * 0.5); ctx.stroke();
+                ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(this.size * 1, this.size * 0.5); ctx.stroke();
+                ctx.beginPath(); ctx.moveTo(0, -this.size * 1); ctx.lineTo(-this.size * 0.8, -this.size * 0.5); ctx.stroke();
+                ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(-this.size * 1, this.size * 0.5); ctx.stroke();
 
                 ctx.restore();
             }
@@ -582,10 +677,9 @@
             }
         }
 
-        // Performance Optimization: Reduce particle counts on smaller screens
         const isMobileScreen = window.innerWidth < 768;
 
-        const petalCount = isMobileScreen ? 30 : 60;
+        const petalCount = isMobileScreen ? 35 : 65;
         const leafCount = isMobileScreen ? 20 : 40;
         const bokehCount = isMobileScreen ? 40 : 90;
 
